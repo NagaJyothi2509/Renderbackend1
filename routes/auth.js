@@ -163,17 +163,18 @@ router.post("/login", async (req, res) => {
   }
 
   try {
-    const doesUserExists = await User.findOne({ email });
+    const doesUserExists = await User.find({ email });
+    const loggedInUser = doesUserExists?.[0];
     if (!doesUserExists) return res.status(400).json({ error: "Invalid email or password" });
 
     // Normally, without bcrypt, you would compare the password directly like this:
-    if (password !== doesUserExists.password) {
+    if (password !== loggedInUser.password) {
       return res.status(400).json({ error: "Invalid email or password" });
     }
 
-    const payload = { _id: doesUserExists._id };
+    const payload = { _id: loggedInUser._id };
     const token = jwt.sign(payload, process.env.JWT_SECRET, { expiresIn: "1h" });
-    const user = { ...doesUserExists._doc, password: undefined };
+    const user = { ...loggedInUser._doc, password: undefined };
     return res.status(200).json({ token, user });
   } catch (err) {
     console.log(err);
