@@ -483,9 +483,7 @@ const router = require("express").Router();
 // Create Contact
 router.post("/contact", auth, async (req, res) => {
   // ... existing code for creating a new contact ...
-  console.log(req.body);
   const {error}=validateContact(req.body);
-  console.log(error);
 
     if(error){
         return res.status(400).json({error:error.details[0].message})
@@ -505,7 +503,6 @@ router.post("/contact", auth, async (req, res) => {
 
     }catch(err){
         console.log(err, 'in catch block');
-        return res.status(400).json({message: 'Not Found'});
     }
 
 });
