@@ -467,13 +467,6 @@ module.exports = router;
 
 
 
-
-
-
-
-
-
-
 const { validateContact, Contact } = require("../models/Contact");
 const auth = require("../middlewares/auth");
 const mongoose = require("mongoose");
@@ -567,9 +560,9 @@ router.get("/mycontacts", auth, async (req, res) => {
 });
 
 // Update contact
-router.put("/contact/:id", auth, async (req, res) => {
+ router.put("/contact/:id", auth, async (req, res) => {
   // ... existing code for updating a contact ...
-  const { id } = req.body;
+  const { id } = req.params;
   
     if (!id) return res.status(400).json({ error: "no id specified." });
     if (!mongoose.isValidObjectId(id))
@@ -594,6 +587,12 @@ router.put("/contact/:id", auth, async (req, res) => {
     }
 
 });
+
+
+
+
+
+
 
 // Delete contact
 router.delete("/contact/:id", auth, async (req, res) => {
